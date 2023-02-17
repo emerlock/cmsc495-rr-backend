@@ -16,7 +16,7 @@ dotenv (populate process.env with your .env file if you wish to use it)
 ---/* || Scripts included ON BACKEND */---
 
 - (To run the script named "start" in package.json)
-"npm start" in the terminal within the directory that contains the package.json file 
+"npm start-dev" in the terminal within the directory that contains the package.json file 
   1. -(I included this script so that you do not need to restart the server after everytime you make a change)
 
 - (To run any other script you define in package.json)
