@@ -2,6 +2,11 @@
 const mongoose = require('mongoose')
 const Recipe = require('../models/recipeModel')
 
+const express = require('express')
+const app = express()
+app.use(express.urlencoded({ extended: true}))
+app.use(express.json())
+
 /*
    * Get all recipes
    * @route GET /api/recipes
@@ -56,6 +61,36 @@ const getSingleRecipe = async (req, res) => {
    * @route POST /api/recipes
 */
 const createRecipe = async (req, res) => {
+
+    console.log("inside create recipe")
+
+    // Get user input from the request body
+    const { id } = req.params
+    const { name, description, directions, ingredients, notes, serving } = req.body 
+
+    newRecipe.save((err) => {
+        if (err) {
+            console.error(err)
+            res.status(500).send('Error saving recipe')
+        } else {
+            res.send('New recipe saved successfully')
+        }
+    })
+
+    mongoose.connect('mongodb://localhost27017/Recipe', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+        .then(() => {
+        console.log('Connected to database');
+        })
+        .catch((err) => {
+        console.error(err);
+        });
+
+    app.listen(4000, () => {
+    console.log('Server listening on port 4000');
+    });
 
 }
 
