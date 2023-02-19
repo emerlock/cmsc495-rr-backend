@@ -6,7 +6,7 @@ const recipeController = require('../../controllers/recipeController')
 // basic route, /api/recipes
 router.route('/')
         .get()
-        .post()
+        .post(recipeController.createRecipe)
 
 // This route makes it so that you can access req.params.id: path /api/recipes/id
 router.route('/:id')
