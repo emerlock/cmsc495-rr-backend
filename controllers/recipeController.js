@@ -68,7 +68,7 @@ const createRecipe = async (req, res) => {
     const { id } = req.params
     const { name, description, directions, ingredients, notes, serving } = req.body 
 
-    newRecipe.save((err) => {
+    Recipe.save((err) => {
         if (err) {
             console.error(err)
             res.status(500).send('Error saving recipe')
