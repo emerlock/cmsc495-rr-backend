@@ -76,22 +76,7 @@ const createRecipe = async (req, res) => {
             res.send('New recipe saved successfully')
         }
     })
-
-    mongoose.connect('mongodb://localhost27017/Recipe', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-        .then(() => {
-        console.log('Connected to database');
-        })
-        .catch((err) => {
-        console.error(err);
-        });
-
-    app.listen(4000, () => {
-    console.log('Server listening on port 4000');
-    });
-
+    
 }
 
 /*
