@@ -71,14 +71,13 @@ const createRecipe = async (req, res) => {
 */
 const updateRecipe = async (req, res) => {
 
+    // when retrieving in front end, we can use fetch(URL + id to get)
+    const { id } = req.params
+
     // check for request body
     if(!req.body){
         return res.status(400).json({ message: 'Request body is missing'})
     }
-
-    // when updating in front end, we can use fetch(URL) to update with using a PUT/PATCH method
-    // remember to pass a request body
-    const id = req.body._id
 
     // if there is no id supplied or undefined
     if (!id) {
