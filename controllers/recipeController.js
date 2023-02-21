@@ -11,14 +11,14 @@ const RecipeCollection = require('../models/recipeModel')
 */
 const getAllRecipes = async (req, res) => {
 
-    const query = RecipeCollection.find({});
+    const query = Recipe.find({});
     query.read("primary")
     query.then((result) => {
         console.log(result)
         res.status(200).json(result)
     }).catch((err) => {
         console.log(err.message)
-        res.status(400).send(err)
+        res.status(500).send(err)
     })
 
 }
@@ -73,14 +73,13 @@ const createRecipe = async (req, res) => {
 */
 const updateRecipe = async (req, res) => {
 
+    // when retrieving in front end, we can use fetch(URL + id to get)
+    const { id } = req.params
+
     // check for request body
     if(!req.body){
         return res.status(400).json({ message: 'Request body is missing'})
     }
-
-    // when updating in front end, we can use fetch(URL) to update with using a PUT/PATCH method
-    // remember to pass a request body
-    const id = req.body._id
 
     // if there is no id supplied or undefined
     if (!id) {

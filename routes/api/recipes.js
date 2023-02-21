@@ -14,6 +14,7 @@ router.route('/search')
 
 // This route makes it so that you can access req.params.id: path /api/recipes/id
 router.route('/:id')
+        .get(recipeController.getSingleRecipe)
         .delete(recipeController.deleteRecipe)
         .patch(recipeController.updateRecipe)
 
