@@ -1,5 +1,8 @@
 /* ||  TODO recipe api route controllers/handlers */
 const mongoose = require('mongoose')
+/*
+
+*/
 const Recipe = require('../models/recipeModel')
 
 /*
@@ -8,13 +11,8 @@ const Recipe = require('../models/recipeModel')
 */
 const getAllRecipes = async (req, res) => {
 
-    // find command catch all
     const query = Recipe.find({});
-
-    // read primary data
-    query.read("primary");
-
-    // resolve promise, return result in result, or return error.
+    query.read("primary")
     query.then((result) => {
         console.log(result)
         res.status(200).json(result)
@@ -54,6 +52,34 @@ const getSingleRecipe = async (req, res) => {
 
     //can the document be jsonified?
     res.status(200).json({ response: retrievedRecipe })
+    
+}
+
+/*
+   * Search Single recipe
+   * @route GET /api/recipes/search
+*/
+const searchSingleRecipe = async (req, res) => {
+
+    // when retrieving in front end, we can use fetch(URL + id to get)
+    const name = req.query.name
+
+    // if there is no id supplied or undefined
+    if (!name) {
+        return res.status(400).json({ message: 'Name is missing'})
+    }
+
+    // if something is retrieved, should be populated: this is alternative to thenables, with a catch if await fails
+    const retrievedRecipeList = await Recipe.find({ name: name })
+
+    // if the recipe does not exist 
+    if (!retrievedRecipeList.length) {
+        return res.status(400).json({ message: 'Recipe does not exist'})
+    }
+
+    //can the document be jsonified?
+    res.status(200).json(retrievedRecipeList[0])
+
 }
 
 /*
@@ -61,6 +87,15 @@ const getSingleRecipe = async (req, res) => {
    * @route POST /api/recipes
 */
 const createRecipe = async (req, res) => {
+
+    try{
+        /* 
+            *Get user input from the request body and save it to recipe
+        */
+        res.status(201).json(await Recipe.create(req.body))
+    } catch (err) {
+        res.status(500).json( { error: err.message })
+    }
 
 }
 
@@ -136,4 +171,5 @@ module.exports = {
     createRecipe,
     updateRecipe,
     deleteRecipe,
+    searchSingleRecipe,
 }
