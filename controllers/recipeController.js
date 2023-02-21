@@ -8,14 +8,19 @@ const Recipe = require('../models/recipeModel')
 */
 const getAllRecipes = async (req, res) => {
 
+    // find command catch all
     const query = Recipe.find({});
-    query.read("primary")
+
+    // read primary data
+    query.read("primary");
+
+    // resolve promise, return result in result, or return error.
     query.then((result) => {
         console.log(result)
         res.status(200).json(result)
     }).catch((err) => {
         console.log(err.message)
-        res.status(400).send(err)
+        res.status(500).send(err)
     })
 
 }

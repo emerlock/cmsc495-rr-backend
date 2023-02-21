@@ -5,13 +5,13 @@ const recipeController = require('../../controllers/recipeController')
 
 // basic route, /api/recipes
 router.route('/')
-        .get()
+        .get(recipeController.getAllRecipes)
         .post()
 
 // This route makes it so that you can access req.params.id: path /api/recipes/id
 router.route('/:id')
-        .get()
+        .get(recipeController.getSingleRecipe)
         .delete(recipeController.deleteRecipe)
-        .patch()
+        .patch(recipeController.updateRecipe)
 
 module.exports = router
