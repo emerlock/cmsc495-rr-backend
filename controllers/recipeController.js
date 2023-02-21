@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 /*
 
 */
-const RecipeCollection = require('../models/recipeModel')
+const Recipe = require('../models/recipeModel')
 
 /*
    * Get all recipes
@@ -30,6 +30,38 @@ const getAllRecipes = async (req, res) => {
 const getSingleRecipe = async (req, res) => {
 
     // when retrieving in front end, we can use fetch(URL + id to get)
+    const { id } = req.params
+
+    // if there is no id supplied or undefined
+    if (!id) {
+        return res.status(400).json({ message: 'ID is missing'})
+    }
+
+    // if the id supplied cannot be converted to ObjectId
+    if (!mongoose.isValidObjectId(id)) {
+        return res.status(400).json({ message: 'ID is invalid'})
+    }
+
+    // if something is retrieved, should be populated: this is alternative to thenables, with a catch if await fails
+    const retrievedRecipe = await Recipe.findById({ _id: id }).catch((err => err.message))
+
+    // if the recipe does not exist 
+    if (!retrievedRecipe) {
+        return res.status(400).json({ message: 'Recipe does not exist'})
+    }
+
+    //can the document be jsonified?
+    res.status(200).json({ response: retrievedRecipe })
+    
+}
+
+/*
+   * Search Single recipe
+   * @route GET /api/recipes/search
+*/
+const searchSingleRecipe = async (req, res) => {
+
+    // when retrieving in front end, we can use fetch(URL + id to get)
     const name = req.query.name
 
     // if there is no id supplied or undefined
@@ -38,7 +70,7 @@ const getSingleRecipe = async (req, res) => {
     }
 
     // if something is retrieved, should be populated: this is alternative to thenables, with a catch if await fails
-    const retrievedRecipeList = await RecipeCollection.find({ name: name })
+    const retrievedRecipeList = await Recipe.find({ name: name })
 
     // if the recipe does not exist 
     if (!retrievedRecipeList.length) {
@@ -47,6 +79,7 @@ const getSingleRecipe = async (req, res) => {
 
     //can the document be jsonified?
     res.status(200).json(retrievedRecipeList[0])
+
 }
 
 /*
@@ -59,7 +92,7 @@ const createRecipe = async (req, res) => {
         /* 
             *Get user input from the request body and save it to recipe
         */
-        res.status(201).json(await RecipeCollection.create(req.body))
+        res.status(201).json(await Recipe.create(req.body))
     } catch (err) {
         res.status(500).json( { error: err.message })
     }
@@ -92,7 +125,7 @@ const updateRecipe = async (req, res) => {
     }
 
     // if something is updated, should be populated: this is alternative to thenables, with a catch if await fails
-    const updatedRecipe = await RecipeCollection.findByIdAndUpdate({ _id: id }, req.body).catch((err => err.message))
+    const updatedRecipe = await Recipe.findByIdAndUpdate({ _id: id }, req.body).catch((err => err.message))
 
     // if the recipe does not exist 
     if (!updatedRecipe) {
@@ -122,7 +155,7 @@ const deleteRecipe = async (req, res) => {
     }
 
     // if something is deleted, should be populated: this is alternative to thenables, with a catch if await fails
-    const deletedRecipe = await RecipeCollection.findByIdAndDelete({ _id: id }).catch((err => err.message))
+    const deletedRecipe = await Recipe.findByIdAndDelete({ _id: id }).catch((err => err.message))
 
     // if the recipe does not exist 
     if (!deleteRecipe) {
@@ -138,4 +171,5 @@ module.exports = {
     createRecipe,
     updateRecipe,
     deleteRecipe,
+    searchSingleRecipe,
 }
