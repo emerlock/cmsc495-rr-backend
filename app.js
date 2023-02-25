@@ -2,11 +2,14 @@
 
 /* ||  Imports */
 require('dotenv').config()
+require('./config/passport');
 const connectDB = require('./config/connectDB')
 const indexRouter = require('./routes/index')
 const recipeRouter = require('./routes/api/recipes')
+const authRouter = require('./routes/api/auth')
 const cors = require('cors')
 const corsOptions = require('./config/corsOptions')
+const passport = require('passport')
 
 
 /* ||  Creating an Express App stored in app */
@@ -28,11 +31,15 @@ app.use((req, res, next) => {
 })
 
 
-/* ||  Applying Middleware */
+/* ||  Applying Regular Middleware */
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+// Allows React app to make HTTP requests to Backend
 app.use(cors())
 
+/* || Applying Authentication Middleware */
+app.use(passport.initialize())
 
 /* ||  Applying General Rules for CORS without corsConfig file */
 app.options('*', (req, res, next) => {
@@ -45,6 +52,7 @@ app.options('*', (req, res, next) => {
 /* ||  Applying Sample Router */
 app.use('/', indexRouter)
 app.use('/api/recipes', recipeRouter)
+app.use('/api/auth', authRouter)
 
 
 /* ||  Catch all for now */

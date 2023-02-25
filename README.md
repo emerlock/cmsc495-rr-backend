@@ -27,8 +27,7 @@ npm run <script name> in the terminal
 - This is a skeleton, if you wish to check it out the backend,
     1. Run npm start in the backend directory
     2. open your browser to http://localhost:4000
-    3. To check out the sample route besides index - http://localhost:4000/subdir
-    4. For now, the backend will run on this origin 
+    3. For now, the backend will run on this origin 
 
 - This skeleton has been organized with MVC. 
     1. The route handlers will be mostly in the controllers directory
