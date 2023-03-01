@@ -16,8 +16,8 @@ const comparePassword = async (rawPass, hashedPass) => {
 const createJwt = (user) => {
     const _id = user._id
 
-    // JWT will expire in one day for example
-    const maxAge = '1d'
+    // JWT will expire in Three days for example
+    const maxAge = '3d'
 
     // Payload will contain the user name, user id in sub, and issued at date
     const payload = {
@@ -27,7 +27,7 @@ const createJwt = (user) => {
     }
 
     // sign the new JWT given (payload, secret string, and options)
-    const token = jwt.sign(payload, "Random String", { expiresIn: maxAge } )
+    const token = jwt.sign(payload, process.env.SECRET_STRING, { expiresIn: maxAge } )
 
     // return Bearer + token (what the frontend is looking for to store in localStorage)
     return {

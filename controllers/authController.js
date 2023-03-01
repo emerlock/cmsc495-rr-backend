@@ -18,7 +18,7 @@ const loginUser = async (req, res) => {
     // if valid issue a jwt for the user
     if (isValid) {
         const jwt = createJwt(user)
-        res.status(200).json({success: true, tokens: jwt.token, expiresIn: jwt.expires, msg: "User has been logged in" })
+        res.status(200).json({ success: true, currentUser: { userId: user._id, username: user.username }, tokens: jwt.token, expiresIn: jwt.expires, msg: "User has been logged in" })
     } else {
         res.status(400).json({msg: "Credentials not valid"})
     }

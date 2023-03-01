@@ -1,7 +1,10 @@
 /* ||  TODO recipe api routes */
 const express = require('express')
 const router = express.Router()
+const passport = require('passport')
 const recipeController = require('../../controllers/recipeController')
+
+router.use(passport.authenticate("jwt", {session: false}))
 
 // basic route, /api/recipes
 router.route('/')

@@ -8,7 +8,11 @@ const recipeSchema = new Schema({
   directions: [ String ],
   ingredients: [{ measurement: Number, measurementType: String, ingredient: String }],
   notes: String,
-  Servings: Number
+  Servings: Number,
+  user_id: {
+    type: String,
+    required: true,
+  },
 })
 
 // the Database will store the documents in a collection called recipes (lowercase and plural)

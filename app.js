@@ -4,7 +4,6 @@
 require('dotenv').config()
 require('./config/passport');
 const connectDB = require('./config/connectDB')
-const indexRouter = require('./routes/index')
 const recipeRouter = require('./routes/api/recipes')
 const authRouter = require('./routes/api/auth')
 const cors = require('cors')
@@ -50,14 +49,13 @@ app.options('*', (req, res, next) => {
 
 
 /* ||  Applying Sample Router */
-app.use('/', indexRouter)
-app.use('/api/recipes', recipeRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/recipes', recipeRouter)
 
 
 /* ||  Catch all for now */
 app.all('*', (req, res) => {
-    res.status(400).send('This text should display for any other route not defined')
+    res.status(400).send('Error Occured')
 })
 
 

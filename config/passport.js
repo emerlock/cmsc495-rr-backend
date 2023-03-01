@@ -6,13 +6,13 @@ const ExtractJwt = require('passport-jwt').ExtractJwt
 // we will need to change secret key later
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'Random String',
+    secretOrKey: process.env.SECRET_STRING,
 }
 
 const verify = async (payload, done) => {
 
     const user = await User.findById({ _id: payload.sub }).catch(err => done(err, false))
-  
+
     if (user) {
         return done(null, user)
     } else {
