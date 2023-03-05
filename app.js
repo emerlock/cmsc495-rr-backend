@@ -6,6 +6,7 @@ require('./config/passport');
 const connectDB = require('./config/connectDB')
 const recipeRouter = require('./routes/api/recipes')
 const authRouter = require('./routes/api/auth')
+const userRouter = require('./routes/api/user')
 const cors = require('cors')
 const corsOptions = require('./config/corsOptions')
 const passport = require('passport')
@@ -51,6 +52,7 @@ app.options('*', (req, res, next) => {
 /* ||  Applying Sample Router */
 app.use('/api/auth', authRouter)
 app.use('/api/recipes', recipeRouter)
+app.use('/api/user', userRouter)
 
 
 /* ||  Catch all for now */
