@@ -1,6 +1,7 @@
 /* ||  Imports */
 require('dotenv').config()
 require('./config/passport');
+require('./config/connectDB')
 const recipeRouter = require('./routes/api/recipes')
 const authRouter = require('./routes/api/auth')
 const userRouter = require('./routes/api/user')
