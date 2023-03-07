@@ -1,31 +1,23 @@
-/* ||  TODO for app.js - Mongoose implementation, Controllers, Router for api, etc */
-
 /* ||  Imports */
 require('dotenv').config()
 require('./config/passport');
-const connectDB = require('./config/connectDB')
 const recipeRouter = require('./routes/api/recipes')
 const authRouter = require('./routes/api/auth')
 const userRouter = require('./routes/api/user')
 const cors = require('cors')
-const corsOptions = require('./config/corsOptions')
 const passport = require('passport')
-
 
 /* ||  Creating an Express App stored in app */
 const express = require('express')
 const app = express()
 
-
 // Defined a PORT for our app http://localhost:4000, or use a port in .env file
 const PORT = process.env.PORT || 4000
 
-
 /* ||  Example Custom Middleware Logger */
 app.use((req, res, next) => {
-    // will log (/, or /index), GET, and who made the request ex) www.google.com
-    //because they are the only route definitions we have
-    console.log(req.url, req.method, req.headers.origin)
+    // will log the route, HTTP verb, and who made the request ex) www.google.com
+    console.log(req.url, req.method, req.headers.origin) // log on serverside
     // call next() in custom middleware or the app will stop working
     next()
 })
@@ -49,7 +41,7 @@ app.options('*', (req, res, next) => {
 })
 
 
-/* ||  Applying Sample Router */
+/* ||  Applying Api routes */
 app.use('/api/auth', authRouter)
 app.use('/api/recipes', recipeRouter)
 app.use('/api/user', userRouter)

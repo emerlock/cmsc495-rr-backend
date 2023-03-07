@@ -11,10 +11,6 @@ router.route('/')
         .get(recipeController.getAllRecipes)
         .post(recipeController.createRecipe)
 
-// This route makes it so that you can access req.query.name: path /api/recipes/search
-router.route('/search')
-        .get(recipeController.searchSingleRecipe)
-
 // This route makes it so that you can access req.params.id: path /api/recipes/id
 router.route('/:id')
         .get(recipeController.getSingleRecipe)

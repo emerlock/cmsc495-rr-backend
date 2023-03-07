@@ -56,33 +56,6 @@ const getSingleRecipe = async (req, res) => {
 }
 
 /*
-   * Search Single recipe
-   * @route GET /api/recipes/search
-*/
-const searchSingleRecipe = async (req, res) => {
-
-    // when retrieving in front end, we can use fetch(URL + id to get)
-    const name = req.query.name
-
-    // if there is no id supplied or undefined
-    if (!name) {
-        return res.status(400).json({ message: 'Name is missing'})
-    }
-
-    // if something is retrieved, should be populated: this is alternative to thenables, with a catch if await fails
-    const retrievedRecipeList = await Recipe.find({ name: name, user_id: req.user._id })
-
-    // if the recipe does not exist 
-    if (!retrievedRecipeList.length) {
-        return res.status(400).json({ message: 'Recipe does not exist'})
-    }
-
-    //can the document be jsonified?
-    res.status(200).json(retrievedRecipeList[0])
-
-}
-
-/*
    * Create single recipe
    * @route POST /api/recipes
 */
@@ -173,5 +146,4 @@ module.exports = {
     createRecipe,
     updateRecipe,
     deleteRecipe,
-    searchSingleRecipe,
 }

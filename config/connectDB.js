@@ -1,9 +1,10 @@
-/* ||  TODO Maybe a connection function to import in app.js -- MONGO TEAM*/
 const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
+  .catch(err => console.log(err))
+  
 const connectDB = mongoose.connection;
 
 connectDB.once('open', function(callback) {

@@ -12,32 +12,35 @@ const comparePassword = async (rawPass, hashedPass) => {
     return bcrypt.compare(rawPass, hashedPass)
 }
 
-// pass in the user object from the MongoDB DB to create JWT
-const createJwt = (user) => {
-    const _id = user._id
+// pass in the user object from the MongoDB DB to create JWT, uses a promise
+const createJwtPromise = (user) => {
+    return new Promise((resolve, reject) => {
+        const _id = user._id
 
-    // JWT will expire in Three days for example
-    const maxAge = '3d'
+        // JWT will expire in Three days for example
+        const maxAge = '3d'
 
-    // Payload will contain the user name, user id in sub, and issued at date
-    const payload = {
-        user: user.username,
-        sub: _id,
-        iat: Date.now(),
-    }
+        // Payload will contain the user name, user id in sub, and issued at date
+        const payload = {
+            user: user.username,
+            sub: _id,
+            iat: Date.now(),
+        }
 
-    // sign the new JWT given (payload, secret string, and options)
-    const token = jwt.sign(payload, process.env.SECRET_STRING, { expiresIn: maxAge } )
-
-    // return Bearer + token (what the frontend is looking for to store in localStorage)
-    return {
-        token: "Bearer " + token,
-        expires: maxAge,
-    }
+        // sign the new JWT given (payload, secret string, and options)
+        jwt.sign(payload, process.env.SECRET_STRING, { expiresIn: maxAge }, (err, token) => {
+            if (err) reject(err)
+            // return Bearer + token (what the frontend is looking for to store in localStorage)
+            resolve({
+                token: "Bearer " + token,
+                expires: maxAge,
+            })  
+        })
+    }) 
 }
 
 module.exports = {
     hashPassword,
     comparePassword,
-    createJwt,
+    createJwtPromise,
 }
